@@ -146,7 +146,7 @@ main{padding:1.5rem;max-width:860px}
     <div class="reg-logo"><div class="reg-logo-txt"><div class="reg-logo-wordmark"><span class="yw">A</span><span class="wh">LPHA</span><span class="yw">D</span><span class="wh">EVS</span></div><div class="reg-logo-sub">QA AI Academy</div></div></div>
     <div class="track-badge">Automation QA Track</div>
     <h2>Welcome to QA AI Academy</h2>
-    <p>Learn how to use AI tools to work faster and smarter as a QA professional — Selenium/C# + Postman + AI.</p>
+    <p>Learn how to use AI tools to work faster and smarter as a QA professional — Selenium/C# + Postman + AI. 8 modules.</p>
     <div class="reg-field"><label>Full Name</label><input id="reg-name" type="text" placeholder="Your name"></div>
     <div class="reg-field"><label>Work Email</label><input id="reg-email" type="email" placeholder="you@alphadevs.co"></div>
     <button class="reg-btn" onclick="startCourse()">Start Course &#x2192;</button>
@@ -636,7 +636,7 @@ function showCompletion(){
     <div class="cert-box">
       <div style="font-size:3rem">&#127881;</div>
       <div class="cert-title">AlphaDevs QA AI Academy — Automation Track</div>
-      <div class="cert-sub">Awarded to <strong>${S.student.name}</strong> for completing all 5 modules</div>
+      <div class="cert-sub">Awarded to <strong>${S.student.name}</strong> for completing all ${MODS.length} modules</div>
       <div class="stat-grid" style="margin:1rem 0">
         <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/${MODS.length}</div><div class="slbl">Modules passed</div></div>
         <div class="stat-card"><div class="snum" style="color:var(--green)">${avg}%</div><div class="slbl">Average score</div></div>
