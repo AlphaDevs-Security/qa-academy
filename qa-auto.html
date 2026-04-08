@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AlphaDevs QA AI Academy — Automation Track</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0F172A;--navy2:#1E293B;--navy3:#334155;--cyan:#06B6D4;--cyan2:#67E8F9;--amber:#F59E0B;--green:#10B981;--purple:#8B5CF6;--red:#EF4444;--text:#E2E8F0;--muted:#94A3B8;--border:#334155}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--navy);color:var(--text);min-height:100vh;line-height:1.6}
+body.rtl{direction:rtl}
+#reg-gate{position:fixed;inset:0;background:var(--navy);z-index:999;display:flex;align-items:center;justify-content:center;padding:2rem}
+.reg-box{background:var(--navy2);border:1px solid var(--border);border-radius:20px;padding:2.5rem;max-width:430px;width:100%;text-align:center}
+.reg-logo{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:1.5rem}
+.reg-logo-txt{line-height:1}
+.reg-logo-wordmark{font-family:'Bebas Neue','Arial Narrow',Arial,sans-serif;font-size:2.1rem;letter-spacing:3px;line-height:1}
+.reg-logo-wordmark .yw{color:#FFD700}.reg-logo-wordmark .wh{color:var(--text)}
+.reg-logo-sub{font-size:.6rem;font-weight:700;letter-spacing:4px;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.track-badge{display:inline-block;background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:20px;padding:3px 12px;font-size:.72rem;font-weight:700;margin-bottom:1rem;letter-spacing:.05em}
+.reg-box h2{font-size:1.4rem;font-weight:800;margin-bottom:.4rem}
+.reg-box>p{color:var(--muted);font-size:.86rem;margin-bottom:1.5rem;line-height:1.6}
+.reg-field{text-align:left;margin-bottom:.9rem}
+.reg-field label{display:block;font-size:.74rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.35rem}
+.reg-field input{width:100%;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:.6rem .85rem;color:var(--text);font-size:.9rem;outline:none;transition:border-color .2s}
+.reg-field input:focus{border-color:var(--amber)}
+.reg-btn{width:100%;background:linear-gradient(135deg,var(--amber),#D97706);color:white;border:none;border-radius:10px;padding:.75rem;font-size:.95rem;font-weight:700;cursor:pointer;margin-top:.5rem;transition:opacity .2s}
+.reg-btn:hover{opacity:.9}
+.reg-note{font-size:.72rem;color:var(--muted);margin-top:.85rem}
+.pent-banner{background:rgba(245,158,11,.08);border-bottom:1px solid rgba(245,158,11,.2);padding:.5rem 1.5rem;font-size:.78rem;color:var(--amber);text-align:center}
+.pent-banner strong{font-weight:700}
+.header{position:sticky;top:0;z-index:100;background:rgba(15,23,42,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text)}
+.logo-wordmark{font-family:'Bebas Neue','Arial Narrow',Arial,sans-serif;font-size:1.25rem;letter-spacing:2px;line-height:1}
+.logo-wordmark .yw{color:#FFD700}.logo-wordmark .wh{color:var(--text)}
+.logo-sub{font-size:.5rem;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.track-pill{background:rgba(245,158,11,.15);color:var(--amber);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-left:4px}
+.header-right{margin-left:auto;display:flex;align-items:center;gap:.85rem}
+.student-tag{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:5px}
+.student-tag .sname{color:var(--text);font-weight:600}
+.prog-wrap{display:flex;align-items:center;gap:.5rem;font-size:.72rem;color:var(--muted)}
+.prog-bar{width:120px;height:6px;background:var(--navy3);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--amber),var(--green));border-radius:3px;transition:width .4s}
+.lang-btn{background:var(--navy2);border:1px solid var(--border);color:var(--muted);border-radius:6px;padding:4px 9px;font-size:.72rem;cursor:pointer}
+.app{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 90px)}
+.sidebar{background:var(--navy2);border-right:1px solid var(--border);padding:1rem;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
+.sidebar-title{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.75rem;padding:0 .25rem}
+.mod-item{display:flex;align-items:center;gap:.6rem;padding:.55rem .65rem;border-radius:9px;cursor:pointer;margin-bottom:.25rem;transition:background .15s;text-decoration:none;color:var(--text)}
+.mod-item:hover{background:var(--navy3)}
+.mod-item.active{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25)}
+.mod-icon{width:30px;height:30px;border-radius:8px;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.mod-item.active .mod-icon{background:rgba(245,158,11,.2)}
+.mod-info{flex:1;min-width:0}
+.mod-title{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mod-meta{font-size:.67rem;color:var(--muted)}
+.mod-lock{font-size:.75rem;color:var(--muted)}
+.sidebar-summary{margin-top:1.5rem;padding:.85rem;background:var(--navy);border-radius:10px;border:1px solid var(--border);font-size:.75rem}
+.sidebar-summary .ss-title{font-weight:700;margin-bottom:.4rem;color:var(--amber)}
+.ss-row{display:flex;justify-content:space-between;color:var(--muted);margin-bottom:.15rem}
+.ss-row span{color:var(--text);font-weight:600}
+main{padding:1.5rem;max-width:860px}
+.mod-header{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.mod-header-icon{width:52px;height:52px;border-radius:14px;background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.25);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.mod-header-info h1{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+.mod-header-info p{color:var(--muted);font-size:.85rem}
+.mod-tags{display:flex;gap:.4rem;margin-top:.4rem}
+.tag{display:inline-block;border-radius:20px;padding:2px 10px;font-size:.67rem;font-weight:700;border:1px solid}
+.tag.t1{background:rgba(245,158,11,.1);color:var(--amber);border-color:rgba(245,158,11,.3)}
+.tag.t2{background:rgba(16,185,129,.1);color:var(--green);border-color:rgba(16,185,129,.3)}
+.tag.t3{background:rgba(139,92,246,.1);color:var(--purple);border-color:rgba(139,92,246,.3)}
+.tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
+.tab-btn{padding:8px 16px;font-size:.84rem;font-weight:600;border:none;background:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;display:flex;align-items:center;gap:5px}
+.tab-btn.active{color:var(--amber);border-bottom-color:var(--amber)}
+.tab-btn:disabled{opacity:.45;cursor:not-allowed}
+.lesson{font-size:.88rem;line-height:1.75}
+.lesson h2{font-size:1.1rem;font-weight:700;color:var(--text);margin:1.2rem 0 .5rem;padding-bottom:.3rem;border-bottom:1px solid var(--border)}
+.lesson h2:first-child{margin-top:0}
+.lesson p{margin-bottom:.85rem;color:var(--muted)}
+.lesson ul,.lesson ol{margin:.5rem 0 .85rem 1.3rem;color:var(--muted)}
+.lesson li{margin-bottom:.3rem}
+.lesson strong{color:var(--text)}
+.lesson em{color:var(--cyan2)}
+.lesson code{background:var(--navy3);color:var(--cyan2);padding:1px 5px;border-radius:4px;font-size:.85em;font-family:'Cascadia Code',Consolas,monospace}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:.65rem;margin:.85rem 0}
+.stat-card{background:var(--navy2);border:1px solid var(--border);border-radius:9px;padding:.85rem;text-align:center}
+.stat-card .snum{font-size:1.6rem;font-weight:900;width:auto;height:auto;border-radius:0;background:none!important;display:block;margin:0 auto 2px;font-variant-emoji:text;-webkit-font-smoothing:antialiased}
+.stat-card .slbl{font-size:.68rem;color:var(--muted);margin-top:2px}
+.info-box{border-radius:10px;padding:.9rem 1.1rem;margin:.85rem 0;border:1px solid}
+.info-box.cyan{background:rgba(6,182,212,.06);border-color:rgba(6,182,212,.2)}.info-box.amber{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.2)}.info-box.green{background:rgba(16,185,129,.06);border-color:rgba(16,185,129,.2)}.info-box.purple{background:rgba(139,92,246,.06);border-color:rgba(139,92,246,.2)}
+.info-box .ib-title{font-weight:700;font-size:.8rem;margin-bottom:.3rem}
+.info-box.cyan .ib-title{color:var(--cyan)}.info-box.amber .ib-title{color:var(--amber)}
+.info-box.green .ib-title{color:var(--green)}.info-box.purple .ib-title{color:#c4b5fd}
+.info-box p{color:var(--muted);font-size:.84rem;margin:0}
+.code-block{background:#090d18;border:1px solid var(--border);border-radius:9px;overflow:hidden;margin:.85rem 0;font-family:'Cascadia Code','Fira Code',Consolas,monospace}
+.code-hdr{background:var(--navy3);padding:5px 12px;display:flex;justify-content:space-between;align-items:center;font-size:.71rem;color:var(--muted)}
+.code-lang{background:rgba(245,158,11,.15);color:var(--amber);padding:1px 6px;border-radius:4px;font-weight:700;font-size:.67rem}
+.code-block pre{padding:.95rem 1.1rem;font-size:.79rem;line-height:1.65;overflow-x:auto;color:#e2e8f0;white-space:pre-wrap}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:.85rem 0}
+.cc{border-radius:9px;overflow:hidden;background:#090d18}
+.cc-hd{padding:5px 10px;font-size:.74rem;font-weight:700}
+.bad .cc-hd{background:rgba(239,68,68,.12);color:#fca5a5;border-bottom:1px solid rgba(239,68,68,.2)}.bad{border:1px solid rgba(239,68,68,.25)}
+.good .cc-hd{background:rgba(16,185,129,.12);color:#6ee7b7;border-bottom:1px solid rgba(16,185,129,.2)}.good{border:1px solid rgba(16,185,129,.25)}
+.cc pre{padding:.75rem .9rem;font-size:.74rem;line-height:1.6;color:var(--muted);white-space:pre-wrap}
+.steps-list{display:flex;flex-direction:column;gap:.75rem;margin:.38rem 0}
+.step-row{display:flex;gap:10px;align-items:flex-start}
+.snum{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--amber),#D97706);display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex-shrink:0;margin-top:2px;color:white;font-variant-emoji:text}
+.step-body{flex:1}.step-body strong{display:block;font-size:.86rem;color:var(--text);margin-bottom:2px}
+.step-body p,.step-body span{font-size:.8rem;color:var(--muted)}
+.lab-intro{background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:.9rem 1.2rem;margin-bottom:1.1rem;font-size:.85rem;color:var(--muted)}
+.lab-intro strong{color:var(--amber)}
+.lab-task{background:var(--navy2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:.75rem}
+.lab-task-hd{font-size:.85rem;font-weight:700;margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+.lab-task p{font-size:.82rem;color:var(--muted);margin-bottom:.65rem}
+.lab-check{display:flex;align-items:flex-start;gap:.6rem;padding:.4rem .2rem;cursor:pointer}
+.lab-check input[type=checkbox]{width:16px;height:16px;cursor:pointer;flex-shrink:0;margin-top:2px;accent-color:var(--amber)}
+.lab-check span{font-size:.82rem;color:var(--muted)}
+.lab-check.done span{color:var(--text);text-decoration:line-through;opacity:.6}
+.lab-actions{margin-top:1rem;padding-top:.85rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.btn{padding:.6rem 1.2rem;border-radius:8px;font-size:.84rem;font-weight:700;cursor:pointer;border:none;transition:opacity .2s}
+.btn:hover{opacity:.85}.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn-amber{background:linear-gradient(135deg,var(--amber),#D97706);color:white}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.quiz-q{background:var(--navy2);border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:.85rem}
+.quiz-q-txt{font-size:.88rem;font-weight:600;margin-bottom:.75rem}
+.quiz-opt{display:flex;align-items:center;gap:.6rem;padding:.4rem .5rem;border-radius:7px;cursor:pointer;margin-bottom:.3rem;transition:background .15s;font-size:.84rem;color:var(--muted)}
+.quiz-opt:hover{background:var(--navy3)}
+.quiz-opt input{accent-color:var(--amber)}
+.quiz-opt.correct{background:rgba(16,185,129,.1);color:var(--green)}
+.quiz-opt.wrong{background:rgba(239,68,68,.1);color:#fca5a5}
+.quiz-result{padding:.85rem 1rem;border-radius:10px;margin-top:1rem;font-size:.88rem;font-weight:600;text-align:center}
+.quiz-result.pass{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.3)}
+.quiz-result.fail{background:rgba(239,68,68,.08);color:#fca5a5;border:1px solid rgba(239,68,68,.2)}
+.next-btn{background:linear-gradient(135deg,var(--amber),var(--green));color:white;border:none;border-radius:10px;padding:.7rem 1.6rem;font-size:.9rem;font-weight:700;cursor:pointer;margin-top:1rem}
+.cert-box{background:var(--navy2);border:2px solid var(--amber);border-radius:16px;padding:2rem;text-align:center;margin-top:1rem}
+.cert-title{font-size:1.1rem;font-weight:800;color:var(--amber);margin:.5rem 0}
+.cert-sub{color:var(--muted);font-size:.84rem;margin-bottom:1rem}
+.report-btn{background:linear-gradient(135deg,var(--amber),var(--green));color:white;border:none;border-radius:10px;padding:.75rem 1.8rem;font-size:.95rem;font-weight:700;cursor:pointer}
+.prompt-box{background:#090d18;border:1px solid rgba(245,158,11,.3);border-radius:10px;padding:1rem 1.2rem;margin:.85rem 0;font-family:'Cascadia Code',Consolas,monospace;font-size:.8rem;color:#e2e8f0;line-height:1.7;white-space:pre-wrap}
+.prompt-label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);margin-bottom:.4rem}
+</style>
+</head>
+<body>
+
+<div id="reg-gate">
+  <div class="reg-box">
+    <div class="reg-logo"><div class="reg-logo-txt"><div class="reg-logo-wordmark"><span class="yw">A</span><span class="wh">LPHA</span><span class="yw">D</span><span class="wh">EVS</span></div><div class="reg-logo-sub">QA AI Academy</div></div></div>
+    <div class="track-badge">Automation QA Track</div>
+    <h2>Welcome to QA AI Academy</h2>
+    <p>Learn how to use AI tools to work faster and smarter as a QA professional — Selenium/C# + Postman + AI.</p>
+    <div class="reg-field"><label>Full Name</label><input id="reg-name" type="text" placeholder="Your name"></div>
+    <div class="reg-field"><label>Work Email</label><input id="reg-email" type="email" placeholder="you@alphadevs.co"></div>
+    <button class="reg-btn" onclick="startCourse()">Start Course &#x2192;</button>
+    <p class="reg-note">Your progress is tracked and reported to your manager upon completion.</p>
+  </div>
+</div>
+
+<div class="pent-banner"><strong>&#9888; Environment Note:</strong> These tools run on your local machine. When the Pentagon2000 environment is restored, tools will be pre-configured on your workstations.</div>
+
+<header class="header">
+  <a class="logo" href="#"><div><div class="logo-wordmark"><span class="yw">A</span><span class="wh">LPHA</span><span class="yw">D</span><span class="wh">EVS</span></div><div class="logo-sub">QA AI Academy</div></div></a>
+  <span class="track-pill">Automation QA</span>
+  <div class="header-right">
+    <div class="student-tag">&#128100; <span class="sname" id="hdr-name"></span></div>
+    <div class="prog-wrap"><div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div><span id="prog-txt">0/5</span></div>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main id="main-content" style="padding:1.5rem;max-width:860px"></main>
+</div>
+
+<script>
+const MODS = [
+{
+  icon:'🤖', title:'AI-Assisted Selenium/C# Testing', sub:'Write automation tests 5x faster with GitHub Copilot', tags:['60 min','Selenium','C#'],
+  lesson:`<div class="lesson"><h2>How Copilot Changes Automation Writing</h2><p>Writing Selenium tests manually means remembering XPath syntax, Page Object patterns, waits, assertions — all at once. Copilot handles the boilerplate so you focus on the test logic.</p><div class="stat-grid"><div class="stat-card"><div class="snum" style="color:var(--amber)">5x</div><div class="slbl">Faster test writing</div></div><div class="stat-card"><div class="snum" style="color:var(--green)">90%</div><div class="slbl">Less syntax lookup</div></div><div class="stat-card"><div class="snum" style="color:var(--cyan)">3x</div><div class="slbl">More coverage per sprint</div></div></div><h2>Setting Up Copilot for Selenium Projects</h2><div class="steps-list"><div class="step-row"><div class="snum">1</div><div class="step-body"><strong>Open your Selenium project in VS Code</strong><span>Make sure GitHub Copilot extension is installed and signed in (Ctrl+Shift+X &#x2192; GitHub Copilot)</span></div></div><div class="step-row"><div class="snum">2</div><div class="step-body"><strong>Add a descriptive comment before writing any test</strong><span>Copilot reads your comments and generates the code. The more context you give, the better the output.</span></div></div><div class="step-row"><div class="snum">3</div><div class="step-body"><strong>Use Tab to accept, Escape to reject</strong><span>Copilot shows suggestions in grey. Tab accepts the full suggestion. Alt+] cycles through alternatives.</span></div></div></div><h2>Comment-Driven Test Generation</h2><p>The most effective Copilot technique: write what you want in a comment, let Copilot write the code.</p><div class="code-block"><div class="code-hdr"><span>Comment-Driven Selenium Test</span><span class="code-lang">C#</span></div><pre>// Test: Login with valid credentials should redirect to dashboard
+// Setup: navigate to https://app.example.com/login
+// Action: enter email "test@example.com" and password "ValidPass1!"
+// Assert: URL contains "/dashboard" and welcome message is visible
+[Test]
+public void Login_ValidCredentials_RedirectsToDashboard()
+{
+    // Copilot generates the full test body from the comments above
+}</pre></div><h2>Using Ctrl+I for Refactoring Tests</h2><p>Select existing test code &#x2192; Ctrl+I &#x2192; type your instruction:</p><ul><li>"Add explicit waits before every element interaction"</li><li>"Extract all selectors to a Page Object class"</li><li>"Add [TearDown] method to quit the driver"</li><li>"Convert this test to use data-driven approach with [TestCase]"</li></ul><h2>The Page Object Pattern with Copilot</h2><p>Ask Copilot Chat (Ctrl+Alt+I): <strong>"Create a LoginPage Page Object class for this test. Include all element locators and action methods."</strong> Copilot generates a complete, clean POM class in seconds.</p><div class="info-box amber"><div class="ib-title">&#9888; Always Review Generated Locators</div><p>Copilot generates locators based on patterns — but it cannot see your actual application. Always verify that generated XPaths, IDs, and CSS selectors match your real application elements before running tests.</p></div></div>`,
+  lab:{intro:'Open VS Code with your Selenium C# project (or create a new one named "QALabAuto"). Complete each step on your machine.',tasks:[
+    {t:'Create a new C# file: LoginTests.cs. Type the comment "// Test: navigate to https://example.com and verify the page title contains Example" then press Enter and wait for Copilot',d:'Copilot should suggest a WebDriver setup, navigation, and assertion. Press Tab to accept.'},
+    {t:'Select the generated test body &#x2192; Ctrl+I &#x2192; type: "Add explicit wait of 10 seconds for page load and add TearDown method to quit driver"',d:'Copilot refactors in-place and shows a diff. Click Accept.'},
+    {t:'Open Copilot Chat (Ctrl+Alt+I) &#x2192; type: "Create a Page Object class for a login page with email field, password field, submit button and error message. Use CSS selectors."',d:'Review the generated class. Does it match the Page Object Model pattern?'},
+    {t:'In Copilot Chat, type: "/tests" after selecting one of your methods to generate NUnit test cases',d:'Copilot should generate [TestCase] variations with different input combinations.'},
+    {t:'Ask Copilot Chat: "What explicit waits should I add to make these tests more stable on slow environments?"',d:'Apply at least one suggestion to your test.'}
+  ]},
+  quiz:[
+    {q:'What is the most effective way to use Copilot for writing Selenium tests?',opts:['Let Copilot write everything without any guidance','Write detailed comments describing the test scenario before writing any code','Only use Copilot for assertions','Ask Copilot to refactor after writing all tests manually'],ans:1},
+    {q:'You generated a test with Copilot and it uses XPath "//input[@id=\'email\']". What should you do before running it?',opts:['Run it immediately','Verify this XPath matches the actual element in your application','Change it to CSS selector always','Ask Copilot to generate a different XPath'],ans:1},
+    {q:'What does Ctrl+I do in VS Code with Copilot?',opts:['Opens a new file','Opens Inline Chat — lets you select code and give a refactoring instruction','Saves the file','Runs the tests'],ans:1},
+    {q:'What is the Page Object Model (POM)?',opts:['A Selenium plugin','A design pattern that separates page element locators and actions from test logic','A type of test assertion','A Copilot feature'],ans:1},
+    {q:'What is the best instruction to give Copilot to make flaky tests more stable?',opts:['Remove all waits','Add explicit waits before every element interaction and use WebDriverWait instead of Thread.Sleep','Add more assertions','Use shorter timeouts'],ans:1}
+  ]
+},{
+  icon:'📡', title:'Postman + AI for API Testing', sub:'Generate API test collections and scripts with AI', tags:['60 min','Postman','API'],
+  lesson:`<div class="lesson"><h2>Why API Testing with AI is a Game-Changer</h2><p>Manual API testing in Postman is slow: build each request, write test scripts from scratch, maintain collections. AI can generate complete Postman collections, write test scripts, and analyze responses in minutes.</p><h2>Generating Tests from API Documentation</h2><p>If you have a Swagger/OpenAPI spec, paste it into claude.ai and ask:</p><div class="prompt-label">API TEST GENERATION PROMPT</div><div class="prompt-box">Here is our API specification:
+[paste Swagger JSON or endpoint descriptions]
+
+Generate a Postman collection with:
+1. One request per endpoint
+2. Test scripts for each request (status code, response schema, response time)
+3. Environment variables for base URL and auth token
+4. Negative test cases (invalid auth, missing required fields, wrong data types)
+Format: Postman Collection JSON v2.1</div><h2>Writing Postman Test Scripts with AI</h2><p>In Postman, the "Tests" tab runs JavaScript after each request. Writing these from scratch is tedious. Use AI:</p><div class="code-block"><div class="code-hdr"><span>Ask AI to write this</span><span class="code-lang">Prompt</span></div><pre>Write a Postman test script for a POST /users endpoint that:
+- Returns 201 status on success
+- Response body has fields: id (number), email (string), createdAt (ISO date)
+- Response time is under 2000ms
+- Sets the returned user ID as environment variable "userId"</pre></div><div class="code-block"><div class="code-hdr"><span>AI-Generated Postman Test Script</span><span class="code-lang">JavaScript</span></div><pre>pm.test("Status 201 Created", () =&gt; pm.response.to.have.status(201));
+pm.test("Response time under 2s", () =&gt; pm.expect(pm.response.responseTime).to.be.below(2000));
+pm.test("Response has required fields", () =&gt; {
+    const json = pm.response.json();
+    pm.expect(json.id).to.be.a("number");
+    pm.expect(json.email).to.be.a("string");
+    pm.expect(json.createdAt).to.match(/^\d{4}-\d{2}-\d{2}T/);
+});
+pm.environment.set("userId", pm.response.json().id);</pre></div><h2>Chaining Requests with AI Help</h2><p>Ask AI: <strong>"Write a Postman pre-request script that reads the auth token from environment variables and adds it as a Bearer token Authorization header."</strong></p><div class="info-box green"><div class="ib-title">&#128161; API Test Coverage Checklist</div><p>For every endpoint: &#10003; Success case &#10003; Invalid auth (401) &#10003; Missing required fields (400) &#10003; Wrong data types (400/422) &#10003; Resource not found (404) &#10003; Response time SLA &#10003; Response schema validation</p></div></div>`,
+  lab:{intro:'Open Postman. Use the public API at https://jsonplaceholder.typicode.com for practice (free, no auth needed).',tasks:[
+    {t:'In claude.ai, ask: "Write a Postman test script for GET https://jsonplaceholder.typicode.com/users/1 that validates: status 200, response has id=1, name is a string, response time under 1500ms"',d:'Copy the generated script.'},
+    {t:'Open Postman. Create a new GET request to https://jsonplaceholder.typicode.com/users/1. Paste the AI-generated script into the Tests tab. Run it.',d:'All tests should pass. If any fail, ask AI: "The test failed with this error: [paste error]. Fix the script."'},
+    {t:'Ask claude.ai: "Write Postman test scripts for these negative cases on GET /users/:id — request with id=0, id=99999 (not found), id=abc (invalid type)"',d:'Create 3 separate requests in Postman with these test scripts.'},
+    {t:'Ask claude.ai: "Write a Postman pre-request script that generates a random email address and saves it as environment variable new_user_email"',d:'This is a common pattern for creating unique test data.'},
+    {t:'Ask AI: "Generate a complete Postman collection for the JSONPlaceholder /posts endpoint — GET all, GET one, POST create, PUT update, DELETE. Include basic test scripts for each."',d:'Ask AI to output as Postman Collection JSON. Import it into Postman via File > Import.'}
+  ]},
+  quiz:[
+    {q:'What is the main advantage of generating Postman tests with AI vs writing them manually?',opts:['AI tests are always correct','AI generates complete test scripts with status, schema, and timing checks in seconds instead of minutes','AI connects to your API automatically','AI tests run faster'],ans:1},
+    {q:'What should a good API test script validate?',opts:['Only the status code','Status code, response schema, response time, and business logic in the response body','Only the response body','Only response time'],ans:1},
+    {q:'What is a Postman pre-request script used for?',opts:['To validate the response','To run code before the request is sent — useful for setting auth tokens, generating test data','To chain multiple requests','To save environment variables only'],ans:1},
+    {q:'You receive a 401 response from an API. What does this mean?',opts:['Server error','Resource not found','Authentication failed — missing or invalid credentials','Request was malformed'],ans:2},
+    {q:'What is the correct AI prompt to generate Postman scripts from an API spec?',opts:['Write Postman tests','Here is my API spec: [paste spec]. Generate a Postman collection with test scripts for each endpoint including happy path and negative cases.','Test my API','Create Postman requests'],ans:1}
+  ]
+},{
+  icon:'🔬', title:'AI Code Review for Tests', sub:'Find gaps, improve quality, and maintain test suites', tags:['45 min','Code Review','Quality'],
+  lesson:`<div class="lesson"><h2>Why Test Code Needs Review Too</h2><p>Test code is production code. Flaky, poorly structured, or incomplete tests are worse than no tests — they create false confidence. AI can review your test code as effectively as reviewing application code.</p><h2>The Test Quality Review Prompt</h2><div class="prompt-label">TEST REVIEW PROMPT</div><div class="prompt-box">Review this test code for quality issues:
+[paste your test class or method]
+
+Check for:
+1. Missing assertions (tests that always pass)
+2. Hardcoded waits (Thread.Sleep) instead of explicit waits
+3. Test interdependence (tests that rely on other tests' state)
+4. Unclear test names (names that don't describe what is being tested)
+5. Missing negative test cases
+6. Locator fragility (XPaths that will break when UI changes)
+7. Missing cleanup in TearDown
+
+List each issue with: severity, location, and the fix.</div><h2>Coverage Gap Analysis</h2><p>Paste your test class + the feature it tests, then ask:</p><ul><li>"What scenarios is this test class NOT covering?"</li><li>"Generate the missing test cases based on this feature description"</li><li>"What edge cases am I missing?"</li></ul><h2>Fixing Flaky Tests</h2><p>Flaky tests (pass sometimes, fail sometimes) are the #1 automation problem. When a test flakes:</p><div class="code-block"><div class="code-hdr"><span>Flaky Test Prompt</span><span class="code-lang">Prompt</span></div><pre>This Selenium test fails intermittently with: [paste error message]
+Here is the test code: [paste code]
+
+Diagnose why it is flaky and rewrite it to be stable.
+Common issues to check: race conditions, missing waits, 
+element not in DOM yet, animation not complete.</pre></div><div class="info-box purple"><div class="ib-title">&#128269; The #1 Test Anti-Pattern</div><p><strong>Thread.Sleep(3000)</strong> — hardcoded waits are the most common cause of flaky tests. Always replace with <code>WebDriverWait</code> + expected conditions. Ask Copilot: "Replace all Thread.Sleep calls with explicit WebDriverWait".</p></div></div>`,
+  lab:{intro:'Practice AI-powered test code review and improvement.',tasks:[
+    {t:'Open claude.ai. Paste this test code and ask for a quality review:\n[Test]\npublic void CheckoutTest(){\n  Thread.Sleep(3000);\n  driver.FindElement(By.XPath("//div[3]/button")).Click();\n  Thread.Sleep(2000);\n  Assert.IsTrue(true);\n}',d:'You should get at least 5 quality issues. Note each one.'},
+    {t:'Ask AI to rewrite the test properly: "Rewrite this test to fix all quality issues. Assume it is testing a checkout button click that should show a confirmation dialog."',d:'Compare the before and after — this is the gap between bad and good automation.'},
+    {t:'Open VS Code &#x2192; select one of your existing test methods &#x2192; Ctrl+I &#x2192; type: "Review this for test quality issues and suggest improvements"',d:'Use Copilot inline review on your actual code.'},
+    {t:'Ask claude.ai: "What are the 5 most common test automation anti-patterns in Selenium C# and how do I fix each one?"',d:'Save these as a personal checklist.'},
+    {t:'Ask AI: "Generate a code review checklist for Selenium C# tests that I can use on every pull request"',d:'This becomes your PR review template for automation code.'}
+  ]},
+  quiz:[
+    {q:'What is a flaky test?',opts:['A test that always fails','A test that passes and fails intermittently without code changes','A test that is too long','A test with too many assertions'],ans:1},
+    {q:'What is the main problem with Thread.Sleep(3000) in tests?',opts:['It is too slow','It waits a fixed time regardless of whether the element is ready — causes unnecessary slowness and still fails on slow machines','It is deprecated','It only works on Windows'],ans:1},
+    {q:'A test always passes but never actually validates anything. What is this called?',opts:['A positive test','A test with missing assertions — it provides false confidence','An integration test','A smoke test'],ans:1},
+    {q:'What should you use instead of Thread.Sleep for waiting for elements?',opts:['Longer Thread.Sleep','Task.Delay','WebDriverWait with expected conditions','TimeSpan.FromSeconds'],ans:2},
+    {q:'What does test interdependence mean?',opts:['Tests that test the same feature','Tests where one test depends on the state left by a previous test — this is a major anti-pattern','Tests that share a base class','Tests that use the same selectors'],ans:1}
+  ]
+},{
+  icon:'🔧', title:'AI for Test Maintenance', sub:'Fix locators, update selectors, and handle UI changes', tags:['45 min','Maintenance','Selenium'],
+  lesson:`<div class="lesson"><h2>The Maintenance Problem</h2><p>The biggest hidden cost of automation: keeping tests running when the application changes. UI redesigns break locators. New features require new test coverage. AI dramatically reduces maintenance time.</p><h2>Locator Migration with AI</h2><p>When a UI change breaks your locators, use AI to fix them in bulk:</p><div class="prompt-label">LOCATOR FIX PROMPT</div><div class="prompt-box">Our UI was redesigned. Here is the old HTML structure:
+[paste old HTML snippet]
+
+Here is the new HTML structure:
+[paste new HTML snippet]
+
+Here are our current locators:
+[paste your selectors]
+
+Update the locators to work with the new structure.
+Prefer: ID > CSS selector > XPath (in that priority order).
+Explain why each locator was changed.</div><h2>Selector Best Practices</h2><div class="steps-list"><div class="step-row"><div class="snum">1</div><div class="step-body"><strong>ID selectors — most stable</strong><span>By.Id("submit-btn") — breaks only if ID changes. Always prefer this.</span></div></div><div class="step-row"><div class="snum">2</div><div class="step-body"><strong>CSS selectors — reliable</strong><span>By.CssSelector("[data-testid=\'submit\']") — using data-testid attributes is the gold standard. Ask devs to add them.</span></div></div><div class="step-row"><div class="snum">3</div><div class="step-body"><strong>XPath — last resort</strong><span>Avoid absolute XPaths like //div[3]/span[2]. Relative XPaths like //button[contains(text(),\'Submit\')] are more stable.</span></div></div></div><h2>Asking Devs for data-testid Attributes</h2><p>The best long-term solution: ask developers to add <code>data-testid</code> attributes to key elements. Ask AI to generate the request:</p><ul><li>"Write a message to developers explaining why we need data-testid attributes and which elements need them for our checkout flow tests"</li></ul><div class="info-box cyan"><div class="ib-title">&#128161; Preventive Maintenance</div><p>After every sprint, ask AI: <strong>"These UI components changed: [list]. Which of our test locators might be affected?"</strong> Fix proactively before tests break in CI.</p></div></div>`,
+  lab:{intro:'Practice locator maintenance and test update workflows.',tasks:[
+    {t:'Ask claude.ai: "Our login button changed from &lt;button id=\'login-btn\'&gt; to &lt;button class=\'btn-primary auth-submit\' data-action=\'login\'&gt;. Update this locator: By.Id(\"login-btn\") and suggest the most stable alternative."',d:'You should get the fix plus an explanation of why the new selector is more or less stable.'},
+    {t:'Ask AI: "Generate data-testid attributes for these 5 elements on a checkout page: Place Order button, promo code input, order total display, delivery address selector, payment method radio buttons."',d:'This is what you share with developers as a QA request.'},
+    {t:'Open VS Code &#x2192; Ctrl+I on an existing locator &#x2192; type: "Make this locator more stable — prefer data-testid, then CSS, then relative XPath"',d:'Practice AI-assisted locator improvement in your real code.'},
+    {t:'Ask claude.ai: "What are the warning signs that a Selenium test suite has become a maintenance nightmare? List 8 signs."',d:'Identify which of these apply to your current test suite.'},
+    {t:'Ask AI: "Write a utility method in C# that waits for an element to be visible, clickable, and not obscured by another element before interacting with it"',d:'Add this to your test framework as a reusable helper.'}
+  ]},
+  quiz:[
+    {q:'Which locator type is most resistant to UI changes?',opts:['Absolute XPath (//html/body/div[3]/button)','Element ID or data-testid attribute','CSS class names','Relative XPath with position (//div[2])'],ans:1},
+    {q:'What is the advantage of data-testid attributes?',opts:['They make the page load faster','They are added specifically for testing and do not change unless QA requests it — very stable locators','They work only in Selenium','They replace the need for explicit waits'],ans:1},
+    {q:'Your test suddenly fails with "element not found" after a UI update. What is the first thing to do?',opts:['Delete the test','Inspect the element in the browser and compare with your locator','Increase the timeout','Run the test again'],ans:1},
+    {q:'What is the best way to handle a large-scale UI redesign that breaks 50 tests?',opts:['Rewrite all tests from scratch','Paste old and new HTML into AI and ask it to migrate the affected locators','Skip the broken tests','Wait for developers to fix them'],ans:1},
+    {q:'When should you ask developers for data-testid attributes?',opts:['Never — it is too much to ask','During sprint planning or design review — before they write the HTML, not after','Only for new features','Only when tests break'],ans:1}
+  ]
+},{
+  icon:'🚀', title:'Full Automation Workflow with AI', sub:'End-to-end CI/CD, reporting, and team collaboration', tags:['45 min','Workflow','CI/CD'],
+  lesson:`<div class="lesson"><h2>The Complete AI-Assisted QA Automation Workflow</h2><p>This module ties everything together. From sprint planning to test execution to reporting — AI is involved at every step.</p><div class="steps-list"><div class="step-row"><div class="snum" style="background:var(--amber);color:var(--navy)">1</div><div class="step-body"><strong>Sprint Start — Test Design with AI</strong><p>Paste sprint stories &#x2192; AI generates test scenarios &#x2192; you review and prioritize &#x2192; create automation tasks in JIRA</p></div></div><div class="step-row"><div class="snum" style="background:var(--cyan);color:var(--navy)">2</div><div class="step-body"><strong>During Sprint — Write Tests Faster</strong><p>Copilot for Selenium code &#x2192; AI for Postman scripts &#x2192; Inline Chat for refactoring &#x2192; /tests for coverage</p></div></div><div class="step-row"><div class="snum" style="background:var(--purple)">3</div><div class="step-body"><strong>Pre-Commit — AI Code Review</strong><p>Select test code &#x2192; Ctrl+I: "Review for quality issues" &#x2192; fix before pushing &#x2192; SecureStack catches the rest</p></div></div><div class="step-row"><div class="snum" style="background:var(--green)">4</div><div class="step-body"><strong>Post-Run — AI Test Report</strong><p>Paste test results &#x2192; AI writes the status report &#x2192; Go/No-Go recommendation with reasoning</p></div></div></div><h2>AI for Test Results Analysis</h2><div class="prompt-label">RESULTS ANALYSIS PROMPT</div><div class="prompt-box">Here are our test run results:
+Total: 142 | Passed: 128 | Failed: 11 | Skipped: 3
+Failed tests: [paste test names and error messages]
+
+Analyze:
+1. Are failures related (same root cause)?
+2. Are any failures likely false positives (infrastructure issues)?
+3. What is the risk to releasing?
+4. Go or No-Go recommendation with reasoning.</div><h2>Communicating Automation Status</h2><p>Ask AI to translate technical results for non-technical stakeholders:</p><ul><li>"Translate this test failure report into plain language for the project manager"</li><li>"Write a Slack message summarizing this sprint\'s automation coverage in 3 bullet points"</li><li>"What does this stack trace mean in plain English?"</li></ul><div class="info-box green"><div class="ib-title">&#127941; The AlphaDevs Automation Standard</div><p>Every automation engineer is expected to: write tests at the speed of Copilot, maintain them with AI assistance, report with AI-generated summaries, and escalate critical issues immediately. AI handles the documentation — you handle the judgment.</p></div></div>`,
+  lab:{intro:'Build your complete automation workflow. These prompts become your permanent toolkit.',tasks:[
+    {t:'Ask AI: "Generate a sprint automation planning template — given a list of user stories, produce: automation candidates, estimated hours, test types (Selenium/Postman/Manual), and priority"',d:'This becomes your sprint ceremony artifact.'},
+    {t:'Paste these fake test results into claude.ai and ask for analysis: "142 tests. Failed: LoginTest_EmptyPassword, LoginTest_SpecialCharsPassword, LoginTest_LongEmail, CheckoutTest_PromoCode. Errors: NoSuchElementException on #password-error-msg."',d:'AI should identify these as related (same root cause — locator issue on error message element).'},
+    {t:'Ask AI: "Write a Go/No-Go recommendation for a Friday release given: 8 failing tests (2 critical, 6 medium), 1 open blocker bug, 134 passing tests, no regression failures"',d:'This is a real scenario. Does the AI recommendation match your judgment?'},
+    {t:'Ask AI: "Write a Slack automation status message for end of sprint: 142 tests, 128 passing (90%), 2 critical bugs found in checkout, release risk: Medium"',d:'Ready to paste directly into your team channel.'},
+    {t:'Ask AI: "What are the 5 KPIs I should track as a QA automation engineer to show value to management?"',d:'Set up these metrics in your next sprint. Discuss with Lior.'}
+  ]},
+  quiz:[
+    {q:'At what stage of the development cycle should AI be involved in QA automation?',opts:['Only at the end for reporting','Only during test writing','Every stage — planning, writing, review, execution, and reporting','Only when tests fail'],ans:3},
+    {q:'You have 11 failing tests after a release candidate build. Three have the same NoSuchElementException on the same element. What does this suggest?',opts:['Three unrelated bugs','A common root cause — likely a locator change or missing UI element affecting multiple tests','Random flakiness','Server performance issue'],ans:1},
+    {q:'What is a Go/No-Go recommendation?',opts:['A test case type','A decision on whether to release based on test results, open bugs, and risk assessment','A type of deployment','A sprint ceremony'],ans:1},
+    {q:'Why translate technical test results for non-technical stakeholders?',opts:['Because they cannot read','To avoid sharing real data','Project managers and clients make release decisions based on test results — they need the risk in plain language','It is required by JIRA'],ans:2},
+    {q:'What is the most important thing AI cannot replace in test automation?',opts:['Writing test code','Judgment — deciding what level of risk is acceptable and when to escalate a finding','Running tests','Writing reports'],ans:1}
+  ]
+}]
+const S = {mod:0, student:{name:'',email:'',start:0}, scores:{}, attempts:{}, lessonSeen:{}, labDone:{}, modStartTimes:{}, skipped:{}};
+
+function save(){try{localStorage.setItem('qaAutoS',JSON.stringify(S));}catch(e){}}
+function load(){try{const d=localStorage.getItem('qaAutoS');if(d){const p=JSON.parse(d);Object.assign(S,p);}}catch(e){}}
+
+function startCourse(){
+  const n=document.getElementById('reg-name').value.trim();
+  const e=document.getElementById('reg-email').value.trim();
+  if(!n||!e){alert('Please enter your name and email.');return;}
+  S.student.name=n;S.student.email=e;S.student.start=Date.now();
+  save();
+  document.getElementById('reg-gate').style.display='none';
+  document.getElementById('hdr-name').textContent=n;
+  renderSidebar();goTo(0);
+}
+
+function isUnlocked(idx){
+  if(idx===0)return true;
+  if(S.skipped&&S.skipped[idx-1])return true;
+  return (S.scores[idx-1]||0)>=70;
+}
+
+function renderSidebar(){
+  const sb=document.getElementById('sidebar');
+  let h='<div class="sidebar-title">Modules</div>';
+  MODS.forEach((m,i)=>{
+    const unlocked=isUnlocked(i);
+    const score=S.scores[i];
+    const active=S.mod===i?'active':'';
+    const lock=!unlocked?'&#128274;':'';
+    const check=score>=70?'&#10003; ':'';
+    h+=`<div class="mod-item ${active}" onclick="goTo(${i})" style="${!unlocked?'opacity:.5;cursor:not-allowed':''}">
+      <div class="mod-icon">${m.icon}</div>
+      <div class="mod-info">
+        <div class="mod-title">${check}${m.title}</div>
+        <div class="mod-meta">${i+1}/5 &middot; ${m.tags[0]}</div>
+      </div>
+      <div class="mod-lock">${lock}</div>
+    </div>`;
+  });
+  const passed=Object.values(S.scores).filter(s=>s>=70).length;
+  const avg=passed>0?Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Object.keys(S.scores).length):0;
+  h+=`<div class="sidebar-summary">
+    <div class="ss-title">&#128200; My Progress</div>
+    <div class="ss-row">Passed <span>${passed}/5</span></div>
+    <div class="ss-row">Avg Score <span>${avg||0}%</span></div>
+    <div class="ss-row">Student <span>${S.student.name||'-'}</span></div>
+  </div>`;
+  sb.innerHTML=h;
+  const fill=document.getElementById('prog-fill');
+  const txt=document.getElementById('prog-txt');
+  if(fill){fill.style.width=(passed/5*100)+'%';}
+  if(txt){txt.textContent=passed+'/5';}
+}
+
+function goTo(idx){
+  if(!isUnlocked(idx)){alert('Complete the previous module quiz first (70% required).');return;}
+  S.mod=idx;
+  if(!S.modStartTimes[idx])S.modStartTimes[idx]=Date.now();
+  save();renderSidebar();renderMod(idx);
+  window.scrollTo(0,0);
+}
+
+function renderMod(idx){
+  const m=MODS[idx];
+  const mc=document.getElementById('main-content');
+  const labUnlocked=!!S.lessonSeen[idx];
+  const allChecked=checkAllLab(idx);
+  const quizUnlocked=labUnlocked&&allChecked;
+  mc.innerHTML=`
+    <div class="mod-header">
+      <div class="mod-header-icon">${m.icon}</div>
+      <div class="mod-header-info">
+        <h1>${m.title}</h1>
+        <p>${m.sub}</p>
+        <div class="mod-tags">
+          ${m.tags.map((t,i)=>`<span class="tag t${i+1}">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-lesson" onclick="showTab(${idx},'lesson')">&#128210; Lesson</button>
+      <button class="tab-btn" id="tab-lab" onclick="showTab(${idx},'lab')" ${!labUnlocked?'disabled':''}>&#128203; Lab ${!labUnlocked?'&#128274;':''}</button>
+      <button class="tab-btn" id="tab-quiz" onclick="showTab(${idx},'quiz')" ${!quizUnlocked?'disabled':''}>&#129520; Quiz ${!quizUnlocked?'&#128274;':''}</button>
+    </div>
+    <div id="tab-content"></div>`;
+  showTab(idx,'lesson');
+}
+
+function showTab(idx,tab){
+  ['lesson','lab','quiz'].forEach(t=>{
+    const b=document.getElementById('tab-'+t);
+    if(b)b.classList.toggle('active',t===tab);
+  });
+  const m=MODS[idx];
+  const tc=document.getElementById('tab-content');
+  if(tab==='lesson'){
+    tc.innerHTML=m.lesson;
+    if(!S.lessonSeen[idx]){
+      setTimeout(()=>{S.lessonSeen[idx]=true;save();
+        const lb=document.getElementById('tab-lab');
+        if(lb){lb.disabled=false;lb.innerHTML='&#128203; Lab';}
+      },3000);
+    }
+  } else if(tab==='lab'){
+    renderLab(idx);
+  } else if(tab==='quiz'){
+    renderQuiz(idx);
+  }
+}
+
+function checkAllLab(idx){
+  const m=MODS[idx];
+  const saved=S.labDone[idx]||[];
+  return m.lab.tasks.every((_,i)=>saved[i]);
+}
+
+function renderLab(idx){
+  const m=MODS[idx];
+  const saved=S.labDone[idx]||[];
+  let h=`<div class="lab-intro"><strong>&#128203; Hands-On Lab</strong><br>${m.lab.intro}</div>`;
+  m.lab.tasks.forEach((task,i)=>{
+    const checked=saved[i]?'checked':'';
+    const done=saved[i]?'done':'';
+    h+=`<div class="lab-task">
+      <div class="lab-task-hd"><span style="background:rgba(245,158,11,.2);color:var(--amber);padding:2px 7px;border-radius:5px;font-size:.72rem">Step ${i+1}</span></div>
+      ${task.d?`<p>${task.d}</p>`:''}
+      <label class="lab-check ${done}">
+        <input type="checkbox" id="chk-${idx}-${i}" ${checked} onchange="labCheck(${idx},${i},this.checked)">
+        <span>${task.t}</span>
+      </label>
+    </div>`;
+  });
+  const allDone=checkAllLab(idx);
+  h+=`<div class="lab-actions"><button class="btn btn-amber" id="quiz-unlock-btn" onclick="unlockQuiz(${idx})" ${!allDone?'disabled':''}>
+    ${allDone?'&#10003; Go to Quiz &#x2192;':'Complete all steps to unlock quiz'}
+  </button></div>`;
+  document.getElementById('tab-content').innerHTML=h;
+}
+
+function labCheck(idx,i,val){
+  if(!S.labDone[idx])S.labDone[idx]=[];
+  S.labDone[idx][i]=val;save();
+  const allDone=checkAllLab(idx);
+  const qb=document.getElementById('tab-quiz');
+  const ub=document.getElementById('quiz-unlock-btn');
+  if(allDone&&qb){qb.disabled=false;qb.innerHTML='&#129520; Quiz';}
+  if(ub){ub.disabled=!allDone;ub.textContent=allDone?'&#10003; Go to Quiz &#x2192;':'Complete all steps to unlock quiz';}
+}
+
+function unlockQuiz(idx){showTab(idx,'quiz');}
+
+function renderQuiz(idx){
+  const m=MODS[idx];
+  const prev=S.scores[idx];
+  const att=S.attempts[idx]||0;
+  let h='';
+  if(prev>=70){
+    h=`<div class="quiz-result pass">&#127881; Passed with ${prev}% — Module complete!</div>`;
+    if(idx<MODS.length-1)h+=`<button class="next-btn" onclick="goTo(${idx+1})">Next Module &#x2192;</button>`;
+    else h+=`<button class="next-btn" onclick="showCompletion()">&#127881; Complete Course</button>`;
+  } else {
+    m.quiz.forEach((q,qi)=>{
+      h+=`<div class="quiz-q"><div class="quiz-q-txt">${qi+1}. ${q.q}</div>`;
+      q.opts.forEach((o,oi)=>{
+        h+=`<label class="quiz-opt"><input type="radio" name="q${qi}" value="${oi}"> ${o}</label>`;
+      });
+      h+='</div>';
+    });
+    if(att>0)h+=`<p style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem">Attempt ${att+1} — need 70% to pass</p>`;
+    h+=`<button class="btn btn-amber" onclick="submitQuiz(${idx})">Submit Quiz</button>`;
+  }
+  document.getElementById('tab-content').innerHTML=h;
+}
+
+function submitQuiz(idx){
+  const m=MODS[idx];
+  let correct=0;
+  let allAnswered=true;
+  m.quiz.forEach((q,qi)=>{
+    const sel=document.querySelector(`input[name="q${qi}"]:checked`);
+    if(!sel){allAnswered=false;}
+    else if(parseInt(sel.value)===q.ans)correct++;
+  });
+  if(!allAnswered){alert('Please answer all questions.');return;}
+  const score=Math.round(correct/m.quiz.length*100);
+  if(!S.attempts[idx])S.attempts[idx]=0;
+  S.attempts[idx]++;
+  const att=S.attempts[idx];
+  S.scores[idx]=Math.max(S.scores[idx]||0,score);
+  save();
+  let offer='';
+  if(score<70&&att>=3){
+    offer=`<div style="margin-top:.85rem;padding:.75rem;background:var(--navy3);border-radius:8px;font-size:.82rem">
+      3 attempts reached. 
+      <button class="btn btn-outline" style="margin:.3rem" onclick="switchToLesson(${idx})">&#128210; Review Lesson</button>
+      ${idx<MODS.length-1?`<button class="btn btn-amber" style="font-size:.78rem;margin:.3rem" onclick="skipModule(${idx})">&#x2192; Proceed Anyway</button>`:''}
+    </div>`;
+  }
+  const tc=document.getElementById('tab-content');
+  const resultHtml=score>=70
+    ?`<div class="quiz-result pass">&#127881; ${score}% — Passed! Great work.</div>${idx<MODS.length-1?`<button class="next-btn" onclick="goTo(${idx+1})">Next Module &#x2192;</button>`:`<button class="next-btn" onclick="showCompletion()">&#127881; Complete Course</button>`}`
+    :`<div class="quiz-result fail">&#10060; ${score}% — Need 70% to pass. ${score<70&&att<3?`<button class="btn btn-outline" style="margin-left:.5rem;font-size:.78rem" onclick="renderQuiz(${idx})">Try Again</button>`:''}</div>${offer}`;
+  m.quiz.forEach((q,qi)=>{
+    const opts=tc.querySelectorAll(`input[name="q${qi}"]`);
+    const sel=tc.querySelector(`input[name="q${qi}"]:checked`);
+    opts.forEach(o=>{
+      const label=o.parentElement;
+      if(parseInt(o.value)===q.ans)label.classList.add('correct');
+      else if(o===sel)label.classList.add('wrong');
+      o.disabled=true;
+    });
+  });
+  const submitBtn=tc.querySelector('.btn-amber');
+  if(submitBtn)submitBtn.remove();
+  tc.insertAdjacentHTML('beforeend',resultHtml);
+  renderSidebar();
+}
+
+function switchToLesson(idx){S.attempts[idx]=0;save();showTab(idx,'lesson');}
+
+function skipModule(idx){
+  if(!S.skipped)S.skipped={};
+  S.skipped[idx]=true;save();
+  if(idx<MODS.length-1)goTo(idx+1);
+}
+
+function showCompletion(){
+  const mc=document.getElementById('main-content');
+  const passed=Object.values(S.scores).filter(s=>s>=70).length;
+  const avg=Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Math.max(Object.keys(S.scores).length,1));
+  const mins=Math.round((Date.now()-S.student.start)/60000);
+  mc.innerHTML=`
+    <div class="cert-box">
+      <div style="font-size:3rem">&#127881;</div>
+      <div class="cert-title">AlphaDevs QA AI Academy — Automation Track</div>
+      <div class="cert-sub">Awarded to <strong>${S.student.name}</strong> for completing all 5 modules</div>
+      <div class="stat-grid" style="margin:1rem 0">
+        <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/5</div><div class="slbl">Modules passed</div></div>
+        <div class="stat-card"><div class="snum" style="color:var(--green)">${avg}%</div><div class="slbl">Average score</div></div>
+        <div class="stat-card"><div class="snum" style="color:var(--cyan)">${mins}m</div><div class="slbl">Time spent</div></div>
+      </div>
+      <p style="color:var(--muted);font-size:.84rem;margin-bottom:1.2rem">Send your completion report to unlock the Advanced QA AI Track.</p>
+      <button class="report-btn" onclick="sendReport()">&#128231; Send Completion Report</button>
+    </div>`;
+}
+
+function buildReport(){
+  const lines=[];
+  lines.push('=== AlphaDevs QA AI Academy — Automation Track Completion Report ===');
+  lines.push('Student: '+S.student.name);
+  lines.push('Email: '+S.student.email);
+  lines.push('Completed: '+new Date().toLocaleString());
+  const mins=Math.round((Date.now()-S.student.start)/60000);
+  lines.push('Time spent: '+mins+' minutes');
+  lines.push('');
+  MODS.forEach((m,i)=>{
+    const score=S.scores[i]||0;
+    const att=S.attempts[i]||0;
+    const lab=S.labDone[i]?S.labDone[i].filter(Boolean).length:0;
+    lines.push(`Module ${i+1}: ${m.title}`);
+    lines.push(`  Score: ${score}% | Attempts: ${att} | Lab steps: ${lab}/${m.lab.tasks.length}`);
+  });
+  const passed=Object.values(S.scores).filter(s=>s>=70).length;
+  const avg=Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Math.max(Object.keys(S.scores).length,1));
+  lines.push('');
+  lines.push('Summary: '+passed+'/5 passed | Average: '+avg+'%');
+  return lines.join('\n');
+}
+
+function sendReport(){
+  const report=buildReport();
+  const subject=`QA AI Academy (Manual) — Completion: ${S.student.name}`;
+  const body=encodeURIComponent(report);
+  window.open(`mailto:academy@alphadevs.co?subject=${encodeURIComponent(subject)}&body=${body}`);
+}
+
+load();
+if(S.student.name){
+  document.getElementById('reg-gate').style.display='none';
+  document.getElementById('hdr-name').textContent=S.student.name;
+  renderSidebar();goTo(S.mod||0);
+}
+</script>
+</body>
+</html>
