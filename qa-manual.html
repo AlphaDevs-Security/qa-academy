@@ -146,7 +146,7 @@ main{padding:1.5rem;max-width:860px}
     <div class="reg-logo"><div class="reg-logo-txt"><div class="reg-logo-wordmark"><span class="yw">A</span><span class="wh">LPHA</span><span class="yw">D</span><span class="wh">EVS</span></div><div class="reg-logo-sub">QA AI Academy</div></div></div>
     <div class="track-badge">Manual QA Track</div>
     <h2>Welcome to QA AI Academy</h2>
-    <p>Learn how to use AI tools to work faster and smarter as a QA professional — no coding required.</p>
+    <p>Learn how to use AI tools to work faster and smarter as a QA professional — No coding required. 9 modules.</p>
     <div class="reg-field"><label>Full Name</label><input id="reg-name" type="text" placeholder="Your name"></div>
     <div class="reg-field"><label>Work Email</label><input id="reg-email" type="email" placeholder="you@alphadevs.co"></div>
     <button class="reg-btn" onclick="startCourse()">Start Course &#x2192;</button>
@@ -344,6 +344,127 @@ Include: summary, risk assessment, go/no-go recommendation.</div><h2>Regression 
     {q:'What is a regression impact analysis?',opts:['A list of all regression tests','An assessment of what existing functionality could be affected by recent changes','A performance test','A bug count comparison between sprints'],ans:1},
     {q:'What is the best time to use AI for test planning in a sprint?',opts:['Only at the end of the sprint','At the beginning — before testing starts, to prioritize and identify risks','Only when you find a critical bug','Only during the retrospective'],ans:1}
   ]
+},{
+  icon:'📝', title:'Writing Complete Test Plans', sub:'Structure professional test plans from scratch using AI', tags:['50 min','Manual QA','Planning'],
+  lesson:`<div class="lesson"><h2>What is a Test Plan vs Test Cases?</h2><p>Test cases answer <em>what</em> to test. A test plan answers <em>how, when, who, and at what risk</em>. A proper test plan is a contractual document between QA, development, and management. AI can generate a complete draft in minutes.</p><h2>The 7 Sections of a Professional Test Plan</h2><div class="steps-list"><div class="step-row"><div class="snum">1</div><div class="step-body"><strong>Scope</strong><span>What is in scope, what is explicitly out of scope, and why.</span></div></div><div class="step-row"><div class="snum">2</div><div class="step-body"><strong>Test Strategy</strong><span>What types of testing will be performed: functional, regression, performance, accessibility, security.</span></div></div><div class="step-row"><div class="snum">3</div><div class="step-body"><strong>Entry & Exit Criteria</strong><span>When does testing start? When is it done? What conditions must be met to release?</span></div></div><div class="step-row"><div class="snum">4</div><div class="step-body"><strong>Resources & Timeline</strong><span>Who is responsible for what, estimated effort per area, schedule.</span></div></div><div class="step-row"><div class="snum">5</div><div class="step-body"><strong>Risk Assessment</strong><span>Top 5 risks to quality and the mitigation plan for each.</span></div></div><div class="step-row"><div class="snum">6</div><div class="step-body"><strong>Test Environment</strong><span>Browsers, OS, devices, data requirements, third-party dependencies.</span></div></div><div class="step-row"><div class="snum">7</div><div class="step-body"><strong>Defect Management</strong><span>Severity definitions, JIRA workflow, escalation path for critical bugs.</span></div></div></div><h2>AI Test Plan Prompt</h2><div class="prompt-label">FULL TEST PLAN PROMPT</div><div class="prompt-box">You are a senior QA engineer writing a test plan for a software release.
+
+Project: [project name]
+Release scope: [list of features/changes in this release]
+Team: [number of QA engineers, days available]
+Tech stack: [browser, OS, any special environments]
+Known risks: [any known issues or fragile areas]
+
+Write a complete test plan with all 7 sections. 
+For the risk section: provide a probability/impact matrix.
+For exit criteria: be specific and measurable (e.g., "zero open Critical bugs, 95% test pass rate").</div><div class="info-box green"><div class="ib-title">&#128161; Entry vs Exit Criteria</div><p><strong>Entry criteria</strong> — conditions before testing begins: build deployed to test environment, smoke tests pass, test data is ready. <strong>Exit criteria</strong> — conditions for release: all critical/high bugs resolved, 95%+ pass rate, sign-off from QA lead.</p></div><h2>Sharing the Test Plan</h2><p>After AI drafts the plan, ask: <em>"Summarize this test plan in 5 bullet points for the project manager."</em> Keep the full plan in Confluence, share the summary in Slack/email.</p></div>`,
+  lab:{intro:'Build a real test plan document using AI. Use your current project or the scenario below.',tasks:[
+    {t:'Open claude.ai. Use the full test plan prompt for this scenario: "Project: E-commerce checkout redesign. Scope: New promo code system, updated payment flow, new order confirmation email. Team: 2 QA engineers, 5 days. Tech: Chrome/Edge, Windows 10. Known risk: Payment gateway integration is new."',d:'You should receive all 7 sections. Check: are the exit criteria specific and measurable?'},
+    {t:'Ask AI: "Make the exit criteria more specific. Add pass rate thresholds, bug severity limits, and performance benchmarks."',d:'Good exit criteria sound like: "Zero open Critical bugs. All High bugs have workarounds. Test pass rate >= 95%. Checkout flow completes under 3 seconds."'},
+    {t:'Ask AI: "Create a risk matrix table for this release. Columns: Risk | Probability (H/M/L) | Impact (H/M/L) | Mitigation"',d:'Save this table — it becomes your release risk register.'},
+    {t:'Ask AI: "Write a 5-bullet Slack message summarizing this test plan for the project manager"',d:'Non-technical summary: scope, timeline, key risks, exit criteria, who to contact.'},
+    {t:'Ask AI: "What are the 3 most common mistakes QA engineers make when writing test plans?"',d:'Apply these as a checklist to your own test plans going forward.'}
+  ]},
+  quiz:[
+    {q:'What is the difference between a test plan and test cases?',opts:['They are the same thing','Test cases describe what to test step-by-step; a test plan describes the overall strategy, scope, risks, timeline, and criteria','A test plan is for manual testing only','Test cases are written first, then the test plan'],ans:1},
+    {q:'What are exit criteria?',opts:['Conditions that must be met before testing begins','Measurable conditions that must be satisfied before a release is approved — e.g. zero critical bugs, 95% pass rate','The list of tests that were skipped','The number of bugs found'],ans:1},
+    {q:'Your release has 3 open High bugs with workarounds and 0 Critical bugs. Your pass rate is 96%. Should you release?',opts:['No — any open bug blocks release','Depends on exit criteria — if the plan says High bugs with workarounds are acceptable, potentially yes','Yes always if no Critical bugs','No — 96% is not 100%'],ans:1},
+    {q:'What is the purpose of the Risk Assessment section in a test plan?',opts:['To list all test cases','To identify what could go wrong, how likely it is, how impactful it would be, and what to do about it','To assign blame for past bugs','To justify the testing timeline'],ans:1},
+    {q:'Who is the audience for a test plan summary?',opts:['Only QA engineers','Project managers and stakeholders who need to understand scope, risk, and release readiness without reading the full document','Only developers','Only the QA lead'],ans:1}
+  ]
+},{
+  icon:'♿', title:'AI for Accessibility Testing', sub:'Test WCAG compliance and assistive technology support with AI', tags:['45 min','Accessibility','Manual QA'],
+  lesson:`<div class="lesson"><h2>Why Accessibility Testing Matters</h2><p>Accessibility (a11y) is not optional — it is a legal requirement in many countries (ADA, EN 301 549, Israeli Standard 5568) and affects 15% of the global population. AI dramatically speeds up accessibility audit preparation.</p><div class="stat-grid"><div class="stat-card"><div class="snum" style="color:var(--amber)">15%</div><div class="slbl">Population with disabilities</div></div><div class="stat-card"><div class="snum" style="color:var(--red)">98%</div><div class="slbl">Top websites have a11y errors</div></div><div class="stat-card"><div class="snum" style="color:var(--green)">4x</div><div class="slbl">Wider audience with good a11y</div></div></div><h2>WCAG Levels — What You Need to Know</h2><div class="steps-list"><div class="step-row"><div class="snum" style="background:var(--green);color:var(--navy)">A</div><div class="step-body"><strong>Level A — Minimum</strong><span>Must have: alt text on images, keyboard navigation, no seizure-triggering content, form labels.</span></div></div><div class="step-row"><div class="snum" style="background:var(--amber);color:var(--navy)">AA</div><div class="step-body"><strong>Level AA — Standard (required by most laws)</strong><span>4.5:1 color contrast ratio, resize to 200% without loss, error identification in forms, focus visible.</span></div></div><div class="step-row"><div class="snum" style="background:var(--purple)">AAA</div><div class="step-body"><strong>Level AAA — Enhanced</strong><span>7:1 contrast, sign language, extended audio description. Required only by specific regulations.</span></div></div></div><h2>AI Accessibility Audit Prompt</h2><div class="prompt-label">ACCESSIBILITY AUDIT PROMPT</div><div class="prompt-box">I need to test this page/feature for WCAG 2.1 AA accessibility compliance:
+[describe the page or paste the HTML]
+
+Generate a manual accessibility test checklist covering:
+1. Keyboard navigation (can all actions be done without a mouse?)
+2. Screen reader compatibility (ARIA labels, roles, live regions)
+3. Color contrast (identify elements that may fail 4.5:1 ratio)
+4. Form accessibility (labels, error messages, required fields)
+5. Image alt text
+6. Focus management (modals, dynamic content)
+7. Zoom to 200% — does content reflow correctly?
+
+For each item: what to test, how to test it manually, and what pass looks like.</div><h2>Quick Manual Accessibility Tests</h2><ul><li><strong>Keyboard test</strong> — Tab through the entire page. Can you reach every interactive element? Is focus visible?</li><li><strong>Zoom test</strong> — Ctrl+Plus to 200%. Does horizontal scrolling appear? Is text cut off?</li><li><strong>Color contrast</strong> — Use browser DevTools or the free WebAIM contrast checker tool</li><li><strong>Screen reader test</strong> — Windows: NVDA (free). Mac: VoiceOver (built-in). Navigate the page by headings.</li></ul><div class="info-box cyan"><div class="ib-title">&#128161; Quick Win: Alt Text</div><p>Ask AI: <em>"Review this page. List every image that needs alt text and suggest appropriate alt text for each."</em> Paste the HTML or describe the page. This alone catches the most common accessibility bug.</p></div></div>`,
+  lab:{intro:'Run a real accessibility audit using AI-generated checklists on a live page.',tasks:[
+    {t:'Open claude.ai. Ask: "Generate a WCAG 2.1 AA manual test checklist for a user login page with email field, password field, forgot password link, and submit button."',d:'You should get 15-20 specific test items. Review each one.'},
+    {t:'Open any website (try your company\'s test environment or a public site). Press Tab repeatedly and observe: can you navigate all interactive elements without a mouse? Is focus visible with a visible outline?',d:'This is the keyboard navigation test. Note any elements you cannot reach.'},
+    {t:'On the same page, press Ctrl+Plus 4 times (200% zoom). Does the layout break? Does text overflow? Does horizontal scrolling appear?',d:'Good pages reflow content at 200% without horizontal scrolling.'},
+    {t:'Ask claude.ai: "What ARIA attributes should a modal dialog have to be accessible to screen readers? Give me the complete HTML structure."',d:'This is the correct way to build accessible modals. Share with your development team.'},
+    {t:'Ask AI: "Write 5 accessibility bug report titles for common WCAG failures I might find on a web form"',d:'Use these as templates for your next real accessibility audit.'}
+  ]},
+  quiz:[
+    {q:'What does WCAG Level AA require for color contrast?',opts:['Any colors are fine','A minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text','Black text on white background only','The same color for all text'],ans:1},
+    {q:'What is the simplest way to test keyboard accessibility?',opts:['Use a special tool','Press Tab repeatedly to navigate the page and verify every interactive element is reachable without a mouse','Right-click and inspect elements','Check the HTML source code'],ans:1},
+    {q:'Why is alt text on images important for accessibility?',opts:['It improves SEO only','Screen readers read alt text to describe images to visually impaired users — without it, images are invisible to them','It makes images load faster','It is required for legal reasons only'],ans:1},
+    {q:'Your page passes WCAG Level A but fails Level AA. What does this mean for most legal requirements?',opts:['You are fully compliant','You meet minimum requirements but likely not the legal standard in most countries, which requires AA','You only need to fix one item','Level A is sufficient for business applications'],ans:1},
+    {q:'A modal opens when a user clicks a button but focus does not move to the modal. Why is this a problem?',opts:['It is only a cosmetic issue','Keyboard and screen reader users cannot access the modal — they are stuck on the button behind it','It only affects mobile users','It is a performance issue'],ans:1}
+  ]
+},{
+  icon:'📊', title:'JIRA + AI: Smarter Issue Management', sub:'Bulk operations, smart queries, and AI-generated reports from JIRA', tags:['50 min','JIRA','Workflow'],
+  lesson:`<div class="lesson"><h2>JIRA is Only as Good as What You Put In</h2><p>Most QA teams use JIRA for bug tracking but leave 80% of its value unused. AI helps you write better tickets, query smarter, and generate reports that would otherwise take hours.</p><h2>AI-Enhanced Ticket Writing</h2><p>Before creating a JIRA ticket, describe the issue to AI and ask it to structure it:</p><div class="prompt-label">JIRA TICKET PROMPT</div><div class="prompt-box">Write a JIRA bug ticket for this issue:
+[describe the bug in plain language]
+
+Format:
+Summary: [one-line title in the format: [COMPONENT] Issue description]
+Type: Bug
+Priority: [Critical/High/Medium/Low with reasoning]
+Component: [affected area]
+Description:
+  - Environment:
+  - Steps to Reproduce (numbered):
+  - Actual Result:
+  - Expected Result:
+  - Impact: [who is affected and how]
+Labels: [suggest 3-4 relevant labels]
+Linked issues: [suggest if this could be related to common issues]</div><h2>JQL — Query Language with AI Help</h2><p>JQL (JIRA Query Language) is powerful but hard to remember. Use AI to write queries for you:</p><div class="compare"><div class="cc bad"><div class="cc-hd">&#10060; What you want to say</div><pre>"Show me all Critical bugs 
+opened this sprint that are 
+unassigned and not in Done"</pre></div><div class="cc good"><div class="cc-hd">&#10004; Ask AI to write the JQL</div><pre>project = "MYPROJECT" 
+AND issuetype = Bug 
+AND priority = Critical 
+AND sprint in openSprints() 
+AND assignee is EMPTY 
+AND status != Done 
+ORDER BY created DESC</pre></div></div><h2>Sprint Report Generation</h2><p>At the end of every sprint, export your JIRA data (CSV or copy-paste) and ask AI:</p><ul><li>"Analyze this sprint data and write a QA retrospective summary: what went well, what failed, trends"</li><li>"Which components had the most bugs this sprint? Suggest root causes."</li><li>"Generate a management-ready sprint quality report from this data"</li></ul><div class="info-box amber"><div class="ib-title">&#9888; AI Cannot Access Your JIRA Directly</div><p>AI works with data you paste into the conversation. Export sprint data from JIRA (CSV), paste it into claude.ai, then ask for analysis. The output is management-ready in minutes.</p></div></div>`,
+  lab:{intro:'Practice AI-enhanced JIRA workflows. Use real or fictional data.',tasks:[
+    {t:'Use the JIRA ticket prompt to write a complete ticket for this bug: "On the order confirmation page, the customer email shows in plain text instead of being masked (only last 4 chars visible). This happens for all orders. Manager can see full emails."',d:'Check: is the priority justified? Are the labels appropriate? Is the impact section clear?'},
+    {t:'Ask claude.ai: "Write JQL queries for these 3 scenarios: (1) All High+ bugs opened in the last 7 days unresolved. (2) All bugs assigned to me due this week. (3) All open bugs in the Payment component sorted by priority."',d:'Copy these queries. Test them in your JIRA (open JIRA → Issues → Advanced → paste JQL).'},
+    {t:'Paste this fictional sprint data into claude.ai and ask for a QA summary: "Sprint 24. Bugs found: 18. Bugs resolved: 14. Open: 4 (2 High, 2 Medium). Components: Checkout (8 bugs), Profile (4), Auth (3), Other (3). 2 bugs escaped to production."',d:'Ask for: summary, trends, component analysis, and recommendations for Sprint 25.'},
+    {t:'Ask AI: "Write a JIRA ticket template for a Performance bug — what fields and information should every performance bug include?"',d:'Save this as a JIRA ticket template in your project.'},
+    {t:'Ask AI: "What are 5 JIRA workflows or habits that make QA teams more effective?"',d:'Discuss with your team lead which ones to adopt.'}
+  ]},
+  quiz:[
+    {q:'What is JQL?',opts:['A type of JIRA bug','JIRA Query Language — a syntax for searching and filtering issues in JIRA','A JIRA plugin','A Confluence template'],ans:1},
+    {q:'A Critical bug is found in production that was tested and passed in QA. This is called:',opts:['A duplicate bug','A false positive','An escaped defect — a bug that passed through QA and reached production','A deferred bug'],ans:2},
+    {q:'You want to generate a sprint quality report. The best approach is:',opts:['Write it manually from memory','Export sprint data from JIRA, paste into claude.ai, ask for a structured analysis and report','Ask a developer to write it','Use JIRA\'s built-in reports only'],ans:1},
+    {q:'What should a good JIRA bug Summary field contain?',opts:['Just the word describing the bug','A concise one-line description in the format [COMPONENT] What happens — e.g., [CHECKOUT] Order total shows $0 when promo code applied','The full steps to reproduce','The tester\'s name and date'],ans:1},
+    {q:'Why is the "Impact" field important in a bug report?',opts:['It is required by JIRA','It helps developers and product owners understand who is affected and how severely, which determines priority','It replaces the steps to reproduce','It is only relevant for Critical bugs'],ans:1}
+  ]
+},{
+  icon:'📈', title:'QA Metrics & Management Reporting', sub:'KPIs, dashboards, and reporting that show QA value', tags:['50 min','Metrics','Management'],
+  lesson:`<div class="lesson"><h2>Why QA Metrics Matter</h2><p>Without metrics, QA is invisible. With the right metrics, QA becomes a strategic function. AI can help you track, analyze, and present quality data in ways that resonate with management.</p><h2>The 6 Essential QA KPIs</h2><div class="steps-list"><div class="step-row"><div class="snum" style="background:var(--red)">1</div><div class="step-body"><strong>Escaped Defect Rate</strong><p>Bugs found in production / total bugs found × 100. Target: under 5%. High escaped defects = QA is missing things.</p></div></div><div class="step-row"><div class="snum" style="background:var(--amber);color:var(--navy)">2</div><div class="step-body"><strong>Defect Detection Efficiency (DDE)</strong><p>Bugs caught by QA / (QA bugs + production bugs) × 100. Target: 95%+. This is your most important QA health metric.</p></div></div><div class="step-row"><div class="snum" style="background:var(--cyan);color:var(--navy)">3</div><div class="step-body"><strong>Test Pass Rate</strong><p>Tests passed / total tests run × 100. Healthy range: 85-98%. Below 80% = serious quality issues in development.</p></div></div><div class="step-row"><div class="snum" style="background:var(--green)">4</div><div class="step-body"><strong>Test Execution Rate</strong><p>Tests executed / tests planned × 100. Below 90% = not enough time or unclear scope. Signals a planning problem.</p></div></div><div class="step-row"><div class="snum" style="background:var(--purple)">5</div><div class="step-body"><strong>Defect Density</strong><p>Bugs found per feature or story point. Consistently high density in one component = root cause to investigate.</p></div></div><div class="step-row"><div class="snum" style="background:var(--navy3)">6</div><div class="step-body"><strong>Mean Time to Detect (MTTD)</strong><p>Average time from bug introduction to bug discovery. Lower is better. Tracks how quickly QA catches issues.</p></div></div></div><h2>AI for Metrics Analysis</h2><div class="prompt-label">METRICS ANALYSIS PROMPT</div><div class="prompt-box">Here are our QA metrics for the last 3 sprints:
+[paste your sprint data]
+
+Analyze:
+1. What are the trends — improving or declining?
+2. Which metric is most concerning and why?
+3. What is the likely root cause of the problem areas?
+4. What are 3 actionable recommendations?
+5. Write a 1-paragraph executive summary for management.</div><div class="info-box purple"><div class="ib-title">&#128200; The One Metric That Matters Most to Management</div><p><strong>Escaped Defect Rate.</strong> Every bug that reaches production has a cost — customer impact, developer time, support tickets. If you can show this number is low and trending down, QA has proven its value.</p></div></div>`,
+  lab:{intro:'Build your personal QA metrics dashboard using AI analysis.',tasks:[
+    {t:'Ask claude.ai: "Calculate these QA KPIs from this sprint data: 142 tests planned, 138 executed, 121 passed. 24 bugs found by QA, 3 bugs escaped to production. What is the pass rate, execution rate, DDE, and escaped defect rate? Is this a healthy sprint?"',d:'Verify the calculations match the formulas in the lesson.'},
+    {t:'Ask AI: "These are our last 4 sprints escaped defect rates: 8%, 6%, 9%, 12%. What is the trend? What should I investigate?"',d:'Upward trend in escaped defects is a serious signal. AI should flag this clearly.'},
+    {t:'Ask AI: "Write a one-page QA status report for management based on this data: [Sprint 24. Tests: 138/142 executed (97%). Pass rate: 88%. DDE: 89%. 3 escaped defects — all in payment module. Team: 2 QA engineers. Release: approved with 2 deferred Medium bugs.]"',d:'Management report should: lead with conclusion, explain key numbers in plain language, state risks, and end with recommendation.'},
+    {t:'Ask AI: "Design a simple weekly QA dashboard I can maintain in a spreadsheet. What columns and charts should it have?"',d:'Create this spreadsheet template — share with Lior as your QA visibility tool.'},
+    {t:'Ask AI: "What questions should management be asking the QA team every sprint? And what answers should QA always be prepared to give?"',d:'These become your standard QA update talking points for sprint reviews.'}
+  ]},
+  quiz:[
+    {q:'What does Defect Detection Efficiency (DDE) measure?',opts:['How many tests were run','The percentage of all bugs caught by QA before they reach production — the primary measure of QA effectiveness','How fast QA finds bugs','The total number of bugs in a sprint'],ans:1},
+    {q:'Your escaped defect rate is 12% this sprint, up from 4% last sprint. What should you do?',opts:['This is normal variation','Investigate immediately — look at what areas were tested, what was skipped, and whether there was a scope or time issue','Wait one more sprint to confirm the trend','Reduce the number of test cases'],ans:1},
+    {q:'Test Pass Rate of 72% means:',opts:['72% of testers passed the course','72% of test cases passed — this is well below the healthy range and indicates serious quality issues in the build','QA found 72% of bugs','72% of tests were executed'],ans:1},
+    {q:'Why is Escaped Defect Rate the most important metric to show management?',opts:['It is the easiest to calculate','Every escaped defect has direct business cost — customer impact, emergency fixes, support load. Low escaped defects = QA is protecting the business.','Management only cares about this metric','It is required by regulations'],ans:1},
+    {q:'Which of these is a good QA metrics recommendation for management?',opts:['We ran 138 tests','Our DDE improved from 87% to 94% this sprint — we caught 3 potential production incidents before release, saving estimated 2 days of emergency work','We found 24 bugs','We had 3 escaped defects'],ans:1}
+  ]
 }]
 const S = {mod:0, student:{name:'',email:'',start:0}, scores:{}, attempts:{}, lessonSeen:{}, labDone:{}, modStartTimes:{}, skipped:{}};
 
@@ -380,7 +501,7 @@ function renderSidebar(){
       <div class="mod-icon">${m.icon}</div>
       <div class="mod-info">
         <div class="mod-title">${check}${m.title}</div>
-        <div class="mod-meta">${i+1}/5 &middot; ${m.tags[0]}</div>
+        <div class="mod-meta">${i+1}/${MODS.length} &middot; ${m.tags[0]}</div>
       </div>
       <div class="mod-lock">${lock}</div>
     </div>`;
@@ -389,15 +510,15 @@ function renderSidebar(){
   const avg=passed>0?Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Object.keys(S.scores).length):0;
   h+=`<div class="sidebar-summary">
     <div class="ss-title">&#128200; My Progress</div>
-    <div class="ss-row">Passed <span>${passed}/5</span></div>
+    <div class="ss-row">Passed <span>${passed}/${MODS.length}</span></div>
     <div class="ss-row">Avg Score <span>${avg||0}%</span></div>
     <div class="ss-row">Student <span>${S.student.name||'-'}</span></div>
   </div>`;
   sb.innerHTML=h;
   const fill=document.getElementById('prog-fill');
   const txt=document.getElementById('prog-txt');
-  if(fill){fill.style.width=(passed/5*100)+'%';}
-  if(txt){txt.textContent=passed+'/5';}
+  if(fill){fill.style.width=(passed/MODS.length*100)+'%';}
+  if(txt){txt.textContent=passed+'/'+MODS.length;}
 }
 
 function goTo(idx){
@@ -583,7 +704,7 @@ function showCompletion(){
       <div class="cert-title">AlphaDevs QA AI Academy — Manual Track</div>
       <div class="cert-sub">Awarded to <strong>${S.student.name}</strong> for completing all 5 modules</div>
       <div class="stat-grid" style="margin:1rem 0">
-        <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/5</div><div class="slbl">Modules passed</div></div>
+        <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/${MODS.length}</div><div class="slbl">Modules passed</div></div>
         <div class="stat-card"><div class="snum" style="color:var(--green)">${avg}%</div><div class="slbl">Average score</div></div>
         <div class="stat-card"><div class="snum" style="color:var(--cyan)">${mins}m</div><div class="slbl">Time spent</div></div>
       </div>
@@ -611,7 +732,7 @@ function buildReport(){
   const passed=Object.values(S.scores).filter(s=>s>=70).length;
   const avg=Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Math.max(Object.keys(S.scores).length,1));
   lines.push('');
-  lines.push('Summary: '+passed+'/5 passed | Average: '+avg+'%');
+  lines.push('Summary: '+passed+'/'+MODS.length+' passed | Average: '+avg+'%');
   return lines.join('\n');
 }
 
