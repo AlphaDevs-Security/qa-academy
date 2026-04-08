@@ -321,6 +321,84 @@ Analyze:
     {q:'Why translate technical test results for non-technical stakeholders?',opts:['Because they cannot read','To avoid sharing real data','Project managers and clients make release decisions based on test results — they need the risk in plain language','It is required by JIRA'],ans:2},
     {q:'What is the most important thing AI cannot replace in test automation?',opts:['Writing test code','Judgment — deciding what level of risk is acceptable and when to escalate a finding','Running tests','Writing reports'],ans:1}
   ]
+},{
+  icon:'🏗️', title:'Advanced Selenium Patterns with AI', sub:'Page Object Model, test data management, and parallel execution', tags:['60 min','Selenium','Advanced'],
+  lesson:`<div class="lesson"><h2>Beyond Basic Tests — Architecture Matters</h2><p>A test suite with 10 tests is easy to maintain. At 200 tests, poor architecture becomes a crisis: every UI change breaks dozens of tests, data bleeds between tests, and no one knows what passes or why. AI helps you build maintainable architecture from the start.</p><h2>Advanced Page Object Model</h2><p>The basic POM separates locators from tests. The advanced POM adds:</p><div class="steps-list"><div class="step-row"><div class="snum">1</div><div class="step-body"><strong>Base Page class</strong><span>Common methods: WaitForElement, ScrollToElement, TakeScreenshot, LogAction. Every page object inherits from this.</span></div></div><div class="step-row"><div class="snum">2</div><div class="step-body"><strong>Component objects</strong><span>Reusable components like Header, NavigationMenu, Pagination shared across page objects.</span></div></div><div class="step-row"><div class="snum">3</div><div class="step-body"><strong>Fluent interface</strong><span>Methods return <code>this</code> for chaining: <code>loginPage.EnterEmail(email).EnterPassword(pass).Submit().AssertOnDashboard()</code></span></div></div></div><h2>Ask Copilot to Generate the Architecture</h2><div class="code-block"><div class="code-hdr"><span>Architecture Prompt</span><span class="code-lang">Copilot Chat</span></div><pre>Create a BasePage class in C# for Selenium that includes:
+- Constructor accepting IWebDriver
+- WaitForElement(By locator, int seconds=10) using WebDriverWait
+- ClickElement(By locator) with wait before click
+- GetText(By locator) with wait
+- TakeScreenshot(string name) saving to /screenshots folder
+- LogAction(string message) writing to NUnit TestContext</pre></div><h2>Test Data Management</h2><p>Hardcoded test data is fragile. Use AI to design a test data strategy:</p><ul><li><strong>Data builder pattern</strong> — Ask Copilot: "Create a UserBuilder class with fluent interface for creating test users with default and custom values"</li><li><strong>External data files</strong> — Ask Copilot: "Write a DataHelper class that reads test data from JSON files in the TestData folder"</li><li><strong>Database cleanup</strong> — Ask Copilot: "Write a TearDown method that deletes test users created during this test using their email pattern \'test-*@example.com\'"</li></ul><h2>Parallel Execution</h2><p>NUnit supports parallel execution. Ask Copilot:</p><div class="code-block"><div class="code-hdr"><span>Parallel Setup Prompt</span><span class="code-lang">Copilot Chat</span></div><pre>How do I configure my Selenium NUnit project to run tests in parallel? 
+Show me: the NUnit assembly-level attribute, thread-safe WebDriver setup 
+using [ThreadStatic], and any required NuGet packages.</pre></div></div>`,
+  lab:{intro:'Upgrade your test architecture using AI. Work in your Selenium C# project.',tasks:[
+    {t:'Open Copilot Chat (Ctrl+Alt+I) &#x2192; paste the BasePage architecture prompt from the lesson. Accept and review the generated class.',d:'Check: does it have WebDriverWait? Does it handle StaleElementReferenceException? Ask Copilot to add retry logic if not.'},
+    {t:'Ask Copilot: "Create a LoginPage class that extends BasePage. Include locators as private By fields, and public methods: EnterEmail, EnterPassword, ClickSubmit, GetErrorMessage. Use fluent interface — return this or the next page."',d:'This is the correct POM structure. Verify it uses the BasePage methods you created.'},
+    {t:'Ask Copilot Chat: "Create a UserBuilder class in C# for test data. Default values: email=test-{GUID}@example.com, role=Standard, isActive=true. Allow overriding any field with fluent .WithEmail(), .WithRole() methods."',d:'Test data builders eliminate hardcoded data. This pattern is used in real enterprise test suites.'},
+    {t:'Ask claude.ai: "What are the 5 most important design decisions when building a Selenium C# test framework from scratch? What mistakes do most teams make?"',d:'Save these as your framework design checklist.'},
+    {t:'Ask Copilot: "Add a [Retry(2)] attribute to our flaky tests and create a custom RetryAttribute class that retakes a screenshot on each failure"',d:'Retry logic is a pragmatic solution for tests that are flaky due to infrastructure issues.'}
+  ]},
+  quiz:[
+    {q:'What problem does a BasePage class solve?',opts:['It runs all tests','It centralizes common Selenium operations (waiting, clicking, logging) so every page object inherits them instead of duplicating code','It stores test data','It generates test reports'],ans:1},
+    {q:'What is the fluent interface pattern in Page Objects?',opts:['A colorful UI for tests','Methods return the current or next page object, enabling chained calls like loginPage.EnterEmail().EnterPassword().Submit()','A faster way to find elements','A type of assertion'],ans:1},
+    {q:'Why is hardcoded test data (e.g., using the same email "test@example.com" in all tests) problematic?',opts:['It is not a problem','Tests interfere with each other — if one test creates the user and another expects it not to exist, they conflict','It is slower','It only works locally'],ans:1},
+    {q:'What does the [ThreadStatic] attribute do in parallel Selenium tests?',opts:['It makes tests run slower','It gives each test thread its own WebDriver instance, preventing one thread from using another thread\'s browser','It stops parallel execution','It creates a new browser per test class'],ans:1},
+    {q:'You have 300 Selenium tests and any UI change to the navigation menu breaks 60 of them. What is the architectural problem?',opts:['Too many tests','The navigation menu locators and actions are duplicated across 60 tests instead of being in one reusable component object','Tests are not parallel','Wrong browser driver version'],ans:1}
+  ]
+},{
+  icon:'⚙️', title:'GitHub Actions for Test Automation', sub:'Build CI/CD pipelines that run your tests automatically', tags:['60 min','CI/CD','GitHub Actions'],
+  lesson:`<div class="lesson"><h2>Why CI/CD for QA</h2><p>Manual test execution is bottleneck. With GitHub Actions, your tests run automatically on every PR, every merge, and every scheduled interval. No one forgets to run tests. Failures block merges. Quality becomes enforced.</p><h2>Your First Test Pipeline</h2><div class="prompt-label">PIPELINE GENERATION PROMPT</div><div class="prompt-box">Write a GitHub Actions workflow file (.github/workflows/tests.yml) that:
+1. Triggers on: push to main, pull_request to main, and manual trigger
+2. Runs on: ubuntu-latest
+3. Sets up: .NET 8, Chrome browser, ChromeDriver
+4. Restores NuGet packages
+5. Runs: dotnet test with NUnit, generates an HTML report
+6. Uploads test results as an artifact even if tests fail
+7. Sends a Slack notification with pass/fail summary (use SLACK_WEBHOOK secret)</div><h2>Understanding the Pipeline Output</h2><div class="steps-list"><div class="step-row"><div class="snum" style="background:var(--green);color:var(--navy)">✓</div><div class="step-body"><strong>Green build</strong><span>All tests passed. PR can be merged. CI took X minutes.</span></div></div><div class="step-row"><div class="snum" style="background:var(--red)">✗</div><div class="step-body"><strong>Red build</strong><span>Tests failed. GitHub blocks the PR merge. Team is notified. Look at the uploaded test artifacts to see which tests failed and why.</span></div></div><div class="step-row"><div class="snum" style="background:var(--amber);color:var(--navy)">!</div><div class="step-body"><strong>Flaky build</strong><span>Sometimes red, sometimes green. Investigate: usually race conditions, environment issues, or data conflicts. CI exposes flakiness that local runs hide.</span></div></div></div><h2>Test Reporting with AI</h2><p>After a pipeline run, download the test results XML and ask AI:</p><ul><li>"Analyze these NUnit test results. Summarize failures, group by component, identify patterns."</li><li>"This test has failed 3 times in CI but passes locally. What are the most likely causes?"</li><li>"Write a Slack message summarizing this CI run: X passed, Y failed, Z skipped, run time W minutes."</li></ul><div class="info-box green"><div class="ib-title">&#128161; Branch Protection Rule</div><p>In GitHub repository Settings &#x2192; Branches &#x2192; Branch protection rules: require the test workflow to pass before any PR can merge. This makes QA an enforced gate, not an optional step.</p></div></div>`,
+  lab:{intro:'Set up a real GitHub Actions pipeline for your Selenium tests.',tasks:[
+    {t:'Open claude.ai. Use the pipeline prompt to generate a GitHub Actions YAML for a .NET 8 Selenium NUnit project. Ask AI to explain each section.',d:'Understand what each step does before using it. Focus on: trigger conditions, environment setup, test execution, artifact upload.'},
+    {t:'In your project, create folder .github/workflows/ and file tests.yml. Paste the AI-generated YAML.',d:'Commit and push to your repo. Go to GitHub &#x2192; Actions tab to watch the first run.'},
+    {t:'Ask claude.ai: "My GitHub Actions run fails with: \'ChromeDriver version mismatch\'. How do I fix this in the workflow YAML?"',d:'This is a common CI issue. The fix involves using the setup-chrome action that auto-matches Chrome and ChromeDriver versions.'},
+    {t:'Ask AI: "Write a step in GitHub Actions YAML that sends a Slack notification with the test results summary: total tests, passed, failed, and a link to the run."',d:'Add this step to your workflow. Use a free Slack incoming webhook.'},
+    {t:'Ask AI: "How do I configure this GitHub Actions workflow to only run the Selenium tests on PRs targeting main, but run all tests on schedule every night at 2am?"',d:'This is a real CI strategy: fast feedback on PRs, full regression nightly.'}
+  ]},
+  quiz:[
+    {q:'What is the main benefit of running tests in GitHub Actions on every PR?',opts:['Tests run faster','Tests run automatically with no manual trigger, and failures block merges — quality becomes enforced, not optional','It generates better reports','It replaces the need for test environments'],ans:1},
+    {q:'Your test passes locally but fails consistently in GitHub Actions. What is the most likely cause?',opts:['Your local machine is broken','Environment differences — CI uses a clean environment without browser extensions, saved state, or local data that your machine has','Random test behavior','The tests are not deterministic'],ans:1},
+    {q:'What is a branch protection rule in GitHub?',opts:['A rule that prevents deleting branches','A requirement that specific CI checks pass before a PR can be merged — e.g., all tests must pass','A way to lock branch names','A security policy for repository access'],ans:1},
+    {q:'What should you do when a CI pipeline shows flaky tests (pass sometimes, fail sometimes)?',opts:['Ignore them — flakiness is normal','Mark them as skipped permanently','Investigate the root cause — usually race conditions, missing waits, or shared test data conflicts','Rerun until they pass'],ans:2},
+    {q:'What is the purpose of uploading test results as artifacts in a CI pipeline?',opts:['It is required by GitHub','It stores the test evidence so the team can download and review failure details even after the pipeline run finishes','It makes tests run faster','It replaces Slack notifications'],ans:1}
+  ]
+},{
+  icon:'📉', title:'Performance Testing Basics with AI', sub:'Load testing with k6 and AI-generated test scenarios', tags:['50 min','Performance','k6'],
+  lesson:`<div class="lesson"><h2>Why Performance Testing?</h2><p>A feature that works for 1 user may fail for 1000. Performance testing answers: <em>at what load does our system degrade or fail?</em> AI makes writing performance tests dramatically faster.</p><div class="stat-grid"><div class="stat-card"><div class="snum" style="color:var(--red)">1s</div><div class="slbl">Delay = 7% conversion drop</div></div><div class="stat-card"><div class="snum" style="color:var(--amber)">3s</div><div class="slbl">53% of users abandon mobile</div></div><div class="stat-card"><div class="snum" style="color:var(--green)">100ms</div><div class="slbl">Target API response time</div></div></div><h2>k6 — The Modern Load Testing Tool</h2><p>k6 is a free, open-source load testing tool. Tests are written in JavaScript. AI generates the scripts.</p><div class="prompt-label">k6 TEST SCRIPT PROMPT</div><div class="prompt-box">Write a k6 load test script for this scenario:
+API endpoint: POST https://api.example.com/login
+Payload: {"email": "test@example.com", "password": "TestPass1!"}
+Expected: status 200, response time under 500ms
+
+Test stages:
+- Ramp up to 10 users over 30 seconds
+- Hold 10 users for 2 minutes  
+- Ramp up to 50 users over 30 seconds
+- Hold 50 users for 2 minutes
+- Ramp down to 0 over 30 seconds
+
+Thresholds: 95% of requests under 500ms, error rate under 1%</div><h2>Reading k6 Results with AI</h2><p>After a k6 run, paste the terminal output into claude.ai:</p><ul><li>"Analyze these k6 results. Did we pass our thresholds? What is the p95 response time? At what user count did performance degrade?"</li><li>"The p95 response time jumped from 200ms at 10 users to 1200ms at 50 users. What does this suggest about our system bottleneck?"</li></ul><h2>Performance Test Types</h2><div class="steps-list"><div class="step-row"><div class="snum">1</div><div class="step-body"><strong>Load Test</strong><span>Expected production load. Does the system handle normal traffic?</span></div></div><div class="step-row"><div class="snum">2</div><div class="step-body"><strong>Stress Test</strong><span>Push beyond normal load until the system breaks. Find the breaking point.</span></div></div><div class="step-row"><div class="snum">3</div><div class="step-body"><strong>Spike Test</strong><span>Sudden burst of users (e.g., marketing campaign). Does the system recover?</span></div></div><div class="step-row"><div class="snum">4</div><div class="step-body"><strong>Soak Test</strong><span>Normal load for extended period (hours). Find memory leaks and degradation over time.</span></div></div></div><div class="info-box amber"><div class="ib-title">&#9888; Test Environment Warning</div><p>Never run load tests against production without explicit approval. Always use staging. Coordinate with the infrastructure team before running stress tests.</p></div></div>`,
+  lab:{intro:'Generate and analyze k6 performance tests using AI.',tasks:[
+    {t:'Install k6 on your machine: go to k6.io/docs/getting-started/installation. For Windows: download the installer from the releases page.',d:'Verify installation: open Command Prompt and run "k6 version". You should see the k6 version number.'},
+    {t:'Open claude.ai. Use the k6 prompt from the lesson to generate a load test script for the JSONPlaceholder API: GET https://jsonplaceholder.typicode.com/posts. 50 users, ramp up 1 min, hold 3 min, threshold: p95 under 1000ms.',d:'Save the output as test.js.'},
+    {t:'Run the test: open Command Prompt in the folder with test.js and run "k6 run test.js". Watch the output.',d:'Note: http_req_duration p(95), http_req_failed rate, and whether thresholds passed or failed.'},
+    {t:'Copy the k6 terminal output and paste into claude.ai. Ask: "Analyze these results. Did we meet the thresholds? What does the p95 value tell us? Any concerns?"',d:'This is AI-powered performance analysis — the same technique used on real production systems.'},
+    {t:'Ask claude.ai: "Write a k6 spike test script that sends 5 users for 1 minute, then jumps to 200 users for 30 seconds, then drops back to 5 users. Explain what we are testing for."',d:'Spike tests simulate marketing campaigns or viral traffic. Understanding them is essential for release readiness.'}
+  ]},
+  quiz:[
+    {q:'What is the p95 response time in load testing?',opts:['The average response time','95% of requests completed faster than this time — the most meaningful performance metric for user experience','The maximum response time','The response time of the 95th request'],ans:1},
+    {q:'What is the difference between a load test and a stress test?',opts:['They are the same','Load test uses expected production traffic; stress test intentionally exceeds normal load to find the breaking point','Stress test is faster','Load test only tests APIs'],ans:1},
+    {q:'Your login API responds in 200ms with 10 concurrent users but 1500ms with 50 users. What does this indicate?',opts:['The test is wrong','Scalability issue — the system degrades under increased load, likely a database or server resource bottleneck','Normal behavior','The network is slow'],ans:1},
+    {q:'Why should you never run load tests against production?',opts:['Production is too fast','Load tests generate artificial traffic that can degrade or crash the real system, impacting real users','It is against JIRA rules','Load tests only work in staging'],ans:1},
+    {q:'What is a soak test?',opts:['A quick load test','Running normal load for an extended period (hours) to detect memory leaks, connection pool exhaustion, or gradual performance degradation','A test that soaks up all server memory','A type of security test'],ans:1}
+  ]
 }]
 const S = {mod:0, student:{name:'',email:'',start:0}, scores:{}, attempts:{}, lessonSeen:{}, labDone:{}, modStartTimes:{}, skipped:{}};
 
@@ -357,7 +435,7 @@ function renderSidebar(){
       <div class="mod-icon">${m.icon}</div>
       <div class="mod-info">
         <div class="mod-title">${check}${m.title}</div>
-        <div class="mod-meta">${i+1}/5 &middot; ${m.tags[0]}</div>
+        <div class="mod-meta">${i+1}/${MODS.length} &middot; ${m.tags[0]}</div>
       </div>
       <div class="mod-lock">${lock}</div>
     </div>`;
@@ -366,15 +444,15 @@ function renderSidebar(){
   const avg=passed>0?Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Object.keys(S.scores).length):0;
   h+=`<div class="sidebar-summary">
     <div class="ss-title">&#128200; My Progress</div>
-    <div class="ss-row">Passed <span>${passed}/5</span></div>
+    <div class="ss-row">Passed <span>${passed}/${MODS.length}</span></div>
     <div class="ss-row">Avg Score <span>${avg||0}%</span></div>
     <div class="ss-row">Student <span>${S.student.name||'-'}</span></div>
   </div>`;
   sb.innerHTML=h;
   const fill=document.getElementById('prog-fill');
   const txt=document.getElementById('prog-txt');
-  if(fill){fill.style.width=(passed/5*100)+'%';}
-  if(txt){txt.textContent=passed+'/5';}
+  if(fill){fill.style.width=(passed/MODS.length*100)+'%';}
+  if(txt){txt.textContent=passed+'/'+MODS.length;}
 }
 
 function goTo(idx){
@@ -560,7 +638,7 @@ function showCompletion(){
       <div class="cert-title">AlphaDevs QA AI Academy — Automation Track</div>
       <div class="cert-sub">Awarded to <strong>${S.student.name}</strong> for completing all 5 modules</div>
       <div class="stat-grid" style="margin:1rem 0">
-        <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/5</div><div class="slbl">Modules passed</div></div>
+        <div class="stat-card"><div class="snum" style="color:var(--amber)">${passed}/${MODS.length}</div><div class="slbl">Modules passed</div></div>
         <div class="stat-card"><div class="snum" style="color:var(--green)">${avg}%</div><div class="slbl">Average score</div></div>
         <div class="stat-card"><div class="snum" style="color:var(--cyan)">${mins}m</div><div class="slbl">Time spent</div></div>
       </div>
@@ -588,7 +666,7 @@ function buildReport(){
   const passed=Object.values(S.scores).filter(s=>s>=70).length;
   const avg=Math.round(Object.values(S.scores).reduce((a,b)=>a+b,0)/Math.max(Object.keys(S.scores).length,1));
   lines.push('');
-  lines.push('Summary: '+passed+'/5 passed | Average: '+avg+'%');
+  lines.push('Summary: '+passed+'/'+MODS.length+' passed | Average: '+avg+'%');
   return lines.join('\n');
 }
 
